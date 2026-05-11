@@ -224,6 +224,7 @@ function ThreeHero() {
     let zoom = 6.4;
     let pulse = 0;
     let isDragging = false;
+    let canInteract = window.matchMedia('(pointer: fine) and (min-width: 861px)').matches;
     let lastX = 0;
     let lastY = 0;
     let modeIndex = 0;
@@ -258,6 +259,7 @@ function ThreeHero() {
       renderer.setSize(width, height, false);
       camera.aspect = width / height;
       camera.updateProjectionMatrix();
+      canInteract = window.matchMedia('(pointer: fine) and (min-width: 861px)').matches;
     };
 
     const observer = new ResizeObserver(resize);
@@ -266,6 +268,7 @@ function ThreeHero() {
 
     let frame = 0;
     const handlePointer = (event) => {
+      if (!canInteract) return;
       const rect = mount.getBoundingClientRect();
       pointerX = ((event.clientX - rect.left) / rect.width - 0.5) * 0.9;
       pointerY = ((event.clientY - rect.top) / rect.height - 0.5) * 0.9;
@@ -280,6 +283,7 @@ function ThreeHero() {
       }
     };
     const handlePointerDown = (event) => {
+      if (!canInteract) return;
       isDragging = true;
       lastX = event.clientX;
       lastY = event.clientY;
@@ -287,11 +291,13 @@ function ThreeHero() {
       mount.classList.add('is-dragging');
     };
     const handlePointerUp = (event) => {
+      if (!canInteract) return;
       isDragging = false;
       mount.releasePointerCapture?.(event.pointerId);
       mount.classList.remove('is-dragging');
     };
     const handleClick = () => {
+      if (!canInteract) return;
       pulse = 1;
       modeIndex += 1;
       setMode(modeIndex % modeColors.length);
@@ -303,6 +309,7 @@ function ThreeHero() {
       );
     };
     const handleWheel = (event) => {
+      if (!canInteract) return;
       event.preventDefault();
       zoom = THREE.MathUtils.clamp(zoom + event.deltaY * 0.002, 5.5, 7.4);
     };

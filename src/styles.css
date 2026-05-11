@@ -877,6 +877,19 @@ h1 {
     min-height: 560px;
   }
 
+  .three-stage {
+    pointer-events: none;
+    touch-action: pan-y;
+  }
+
+  .three-stage canvas {
+    cursor: default;
+  }
+
+  .globe-controls {
+    display: none;
+  }
+
   .stats-band,
   .project-grid,
   .mission-grid,
